@@ -10,44 +10,42 @@ O sistema foi pensado para fugir dos exemplos tradicionais de cadastro de livros
 
 ---
 
-# 🚀 Funcionalidades
-
-- Cadastro de jogadores
-- Listagem de jogadores cadastrados
-- Edição de informações
-- Exclusão de jogadores
-- Busca por nome do jogador
-
----
-
-# 🖥️ Tecnologias Utilizadas
+# 🚀 Tecnologias Utilizadas
 
 - HTML5
 - CSS3
 - Bootstrap
 - TypeScript
-- Express.js
 - Node.js
+- Express.js
 
 ---
 
-# 📂 Estrutura Inicial do Sistema
+# 📂 Modelagem do Projeto
 
-O sistema será composto inicialmente por três classes principais:
+## 🧩 Classe Abstrata: Pessoa
+
+A classe `Pessoa` será utilizada como abstração principal do sistema, servindo como base para outras entidades.
+
+### Atributos
+
+- nome
+- idade
+
+### Métodos
+
+- exibirInformacoes()
 
 ---
 
 ## 🧩 Classe: Jogador
 
-Responsável por representar um jogador dentro do sistema.
+A classe `Jogador` herda da classe `Pessoa`.
 
 ### Atributos
 
-- id
-- nome
-- idade
-- posição
-- número da camisa
+- posicao
+- numeroCamisa
 - nacionalidade
 - time
 
@@ -56,19 +54,17 @@ Responsável por representar um jogador dentro do sistema.
 - cadastrar()
 - editar()
 - excluir()
-- visualizar()
 
 ---
 
 ## 🧩 Classe: Time
 
-Responsável por representar o clube associado ao jogador.
+Responsável por representar um clube de futebol.
 
 ### Atributos
 
-- id
 - nome
-- país
+- pais
 - treinador
 
 ### Métodos
@@ -79,28 +75,30 @@ Responsável por representar o clube associado ao jogador.
 
 ---
 
-## 🧩 Classe: SistemaCadastro
+# 🧠 Aplicação do SRP (Single Responsibility Principle)
 
-Responsável pelo gerenciamento geral do sistema.
+Cada classe possui apenas uma responsabilidade no sistema:
 
-### Atributos
-
-- listaJogadores
-- listaTimes
-
-### Métodos
-
-- adicionarJogador()
-- buscarJogador()
-- atualizarJogador()
-- deletarJogador()
-- listarJogadores()
+- `Pessoa` → abstração de dados básicos de uma pessoa
+- `Jogador` → gerenciamento de informações do jogador
+- `Time` → gerenciamento de informações do clube
 
 ---
 
-# 🎯 Objetivo Acadêmico
+# 🔄 Aplicação do DIP (Dependency Inversion Principle)
 
-Aplicar os conceitos de desenvolvimento SPA, integração entre front-end e back-end, manipulação de rotas e consumo de API utilizando TypeScript e Express.js.
+O sistema utilizará abstrações para reduzir acoplamento entre as classes.
+
+## Relação entre as classes
+
+```text id="zq4l9e"
+Pessoa (abstrata)
+       ↑
+       |
+    Jogador
+```
+
+A classe `Jogador` depende da abstração `Pessoa`, permitindo reutilização e extensibilidade do sistema.
 
 ---
 
