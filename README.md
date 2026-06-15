@@ -1,108 +1,114 @@
-# ⚽ PlayerHub - Sistema de Cadastro de Jogadores
+# Player Hub
 
-## 📌 Descrição do Projeto
+Sistema CRUD para cadastro de times e jogadores de futebol.
 
-O projeto consiste em uma Single Page Application (SPA) desenvolvida para a disciplina de Programação Web.
+## Objetivo
 
-A aplicação terá como objetivo realizar o cadastro de jogadores de futebol, permitindo adicionar, visualizar, editar e remover jogadores do sistema através de uma interface simples e intuitiva.
+O projeto implementa uma API em Node.js e Express com persistencia em SQLite. A API permite cadastrar, listar, buscar, atualizar e remover times e jogadores.
 
-O sistema foi pensado para fugir dos exemplos tradicionais de cadastro de livros, utilizando uma temática esportiva.
+## Tecnologias
 
----
-
-# 🚀 Tecnologias Utilizadas
-
-- HTML5
-- CSS3
-- Bootstrap
-- TypeScript
 - Node.js
-- Express.js
+- Express
+- SQLite
+- JavaScript com ES Modules
 
----
+## Estrutura principal
 
-# 📂 Modelagem do Projeto
-
-## 🧩 Classe Abstrata: Pessoa
-
-A classe `Pessoa` será utilizada como abstração principal do sistema, servindo como base para outras entidades.
-
-### Atributos
-
-- nome
-- idade
-
-### Métodos
-
-- exibirInformacoes()
-
----
-
-## 🧩 Classe: Jogador
-
-A classe `Jogador` herda da classe `Pessoa`.
-
-### Atributos
-
-- posicao
-- numeroCamisa
-- nacionalidade
-- time
-
-### Métodos
-
-- cadastrar()
-- editar()
-- excluir()
-
----
-
-## 🧩 Classe: Time
-
-Responsável por representar um clube de futebol.
-
-### Atributos
-
-- nome
-- pais
-- treinador
-
-### Métodos
-
-- adicionarJogador()
-- removerJogador()
-- listarJogadores()
-
----
-
-# 🧠 Aplicação do SRP (Single Responsibility Principle)
-
-Cada classe possui apenas uma responsabilidade no sistema:
-
-- `Pessoa` → abstração de dados básicos de uma pessoa
-- `Jogador` → gerenciamento de informações do jogador
-- `Time` → gerenciamento de informações do clube
-
----
-
-# 🔄 Aplicação do DIP (Dependency Inversion Principle)
-
-O sistema utilizará abstrações para reduzir acoplamento entre as classes.
-
-## Relação entre as classes
-
-```text id="zq4l9e"
-Pessoa (abstrata)
-       ↑
-       |
-    Jogador
+```text
+back/
+  src/
+    controllers/
+    services/
+    models/
+    routes/
+    db.js
+    app.js
+    server.js
 ```
 
-A classe `Jogador` depende da abstração `Pessoa`, permitindo reutilização e extensibilidade do sistema.
+## Banco de dados
 
----
+O arquivo [back/src/db.js](back/src/db.js) cria e configura o banco SQLite.
 
-# 👨‍💻 Autor
+Configuracoes e restricoes implementadas:
 
-Wedne Morais de Araújo
-Curso de Ciência da Computação - UEPB
+- `PRAGMA foreign_keys = ON`
+- `PRIMARY KEY` nas tabelas `times` e `jogadores`
+- `FOREIGN KEY` de `jogadores.timeId` para `times.id`
+- campos obrigatorios com `NOT NULL`
+- `UNIQUE` para nome de time
+- `UNIQUE` para numero de camisa por time
+
+O banco local gerado pela aplicacao se chama:
+
+```text
+back/banco.db
+```
+
+Esse arquivo esta no `.gitignore` e nao deve ser enviado para o repositorio.
+
+## Como executar
+
+Entre na pasta do backend:
+
+```bash
+cd back
+```
+
+Instale as dependencias:
+
+```bash
+npm install
+```
+
+Inicie a API:
+
+```bash
+npm run dev
+```
+
+A API ficara disponivel em:
+
+```text
+http://localhost:3000
+```
+
+## Rotas
+
+### Times
+
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| GET | `/times` | Lista todos os times |
+| POST | `/times` | Cria um time |
+| GET | `/times/:id` | Busca um time por id |
+| PUT | `/times/:id` | Atualiza um time |
+| DELETE | `/times/:id` | Remove um time |
+
+### Jogadores
+
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| GET | `/jogadores` | Lista todos os jogadores |
+| GET | `/jogadores?timeId=1` | Lista jogadores de um time |
+| POST | `/jogadores` | Cria um jogador |
+| GET | `/jogadores/:id` | Busca um jogador por id |
+| PUT | `/jogadores/:id` | Atualiza um jogador |
+| DELETE | `/jogadores/:id` | Remove um jogador |
+
+## Persistencia
+
+Para confirmar a persistencia:
+
+1. Inicie a API.
+2. Cadastre um time e um jogador.
+3. Pare o servidor.
+4. Inicie a API novamente.
+5. Consulte `/times` e `/jogadores`.
+
+Se os dados ainda aparecerem, o SQLite esta persistindo corretamente no arquivo `banco.db`.
+
+## Autor
+
+Wedne Morais de Araujo
