@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Player Hub</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#">
+            <span class="brand-mark" aria-hidden="true"><i class="bi bi-trophy-fill"></i></span>
+            Player Hub
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#menuPrincipal"
+            aria-controls="menuPrincipal"
+            aria-expanded="false"
+            aria-label="Alternar menu"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="menuPrincipal">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+              <li class="nav-item"><a class="nav-link" href="#times">Times</a></li>
+              <li class="nav-item"><a class="nav-link" href="#jogadores">Jogadores</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero-section" aria-labelledby="titulo-dashboard">
+        <div class="container">
+          <div class="hero-grid">
+            <div class="hero-copy">
+     
+              <h1 id="titulo-dashboard">Player Hub</h1>
+              <p>
+                Gerencie times e jogadores com o playerHub
+              <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-primary btn-lg" href="#times">
+                  <i class="bi bi-plus-circle" aria-hidden="true"></i>
+                  Cadastrar time
+                </a>
+                <a class="btn btn-light btn-lg hero-secondary" href="#jogadores">
+                  <i class="bi bi-person-plus" aria-hidden="true"></i>
+                  Novo jogador
+                </a>
+              </div>
+            </div>
+
+            <aside class="summary-panel" aria-label="Resumo do sistema">
+              <div class="summary-card">
+                <span class="summary-icon"><i class="bi bi-shield-check"></i></span>
+                <div>
+                  <span class="summary-label">Times</span>
+                  <strong id="total-times">0</strong>
+                </div>
+              </div>
+              <div class="summary-card">
+                <span class="summary-icon accent"><i class="bi bi-people-fill"></i></span>
+                <div>
+                  <span class="summary-label">Jogadores</span>
+                  <strong id="total-jogadores">0</strong>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="container alert-shell" aria-live="polite" aria-atomic="true">
+        <div id="alert-area"></div>
+      </section>
+
+      <section id="times" class="workspace-section" aria-labelledby="titulo-times">
+        <div class="container">
+          <div class="section-title">
+            <span class="section-kicker">Entidade A</span>
+            <h2 id="titulo-times">Times</h2>
+          </div>
+
+          <div class="row g-4 align-items-start">
+            <div class="col-12 col-lg-4">
+              <form id="form-time" class="form-panel">
+                <input type="hidden" id="time-id" />
+                <div class="panel-heading">
+                  <i class="bi bi-shield-plus" aria-hidden="true"></i>
+                  <h3>Novo time</h3>
+                </div>
+                <div class="mb-3">
+                  <label for="time-nome" class="form-label">Nome</label>
+                  <input class="form-control" id="time-nome" name="nome" required />
+                </div>
+                <div class="mb-3">
+                  <label for="time-pais" class="form-label">Pais</label>
+                  <input class="form-control" id="time-pais" name="pais" required />
+                </div>
+                <div class="mb-4">
+                  <label for="time-treinador" class="form-label">Treinador</label>
+                  <input class="form-control" id="time-treinador" name="treinador" />
+                </div>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-primary flex-fill" type="submit" id="time-submit">
+                    <i class="bi bi-check2-circle" aria-hidden="true"></i>
+                    Salvar time
+                  </button>
+                  <button class="btn btn-outline-secondary" type="button" id="time-cancelar">
+                    <i class="bi bi-eraser" aria-hidden="true"></i>
+                    Limpar
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div class="col-12 col-lg-8">
+              <div class="table-panel">
+                <div class="table-toolbar">
+                  <div>
+         
+                    <h3>Times cadastrados</h3>
+                  </div>
+                  <button class="btn btn-sm btn-outline-secondary" id="recarregar-times" type="button">
+                    <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
+                    Atualizar
+                  </button>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0">
+                    <thead>
+                      <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Pais</th>
+                        <th scope="col">Treinador</th>
+                        <th scope="col">Jogadores</th>
+                        <th scope="col" class="text-end">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody id="times-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="jogadores" class="workspace-section" aria-labelledby="titulo-jogadores">
+        <div class="container">
+          <div class="section-title">
+            <span class="section-kicker">Entidade B relacionada</span>
+            <h2 id="titulo-jogadores">Jogadores</h2>
+          </div>
+
+          <div class="row g-4 align-items-start">
+            <div class="col-12 col-lg-4">
+              <form id="form-jogador" class="form-panel">
+                <input type="hidden" id="jogador-id" />
+                <div class="panel-heading">
+                  <i class="bi bi-person-plus-fill" aria-hidden="true"></i>
+                  <h3>Novo jogador</h3>
+                </div>
+                <div class="mb-3">
+                  <label for="jogador-nome" class="form-label">Nome</label>
+                  <input class="form-control" id="jogador-nome" name="nome" required />
+                </div>
+                <div class="row g-3">
+                  <div class="col-6">
+                    <label for="jogador-idade" class="form-label">Idade</label>
+                    <input class="form-control" id="jogador-idade" name="idade" type="number" min="15" max="50" required />
+                  </div>
+                  <div class="col-6">
+                    <label for="jogador-camisa" class="form-label">Camisa</label>
+                    <input class="form-control" id="jogador-camisa" name="numeroDaCamisa" type="number" min="1" max="99" required />
+                  </div>
+                </div>
+                <div class="mb-3 mt-3">
+                  <label for="jogador-posicao" class="form-label">Posição</label>
+                  <input class="form-control" id="jogador-posicao" name="posicao" required />
+                </div>
+                <div class="mb-3">
+                  <label for="jogador-nacionalidade" class="form-label">Nacionalidade</label>
+                  <input class="form-control" id="jogador-nacionalidade" name="nacionalidade" required />
+                </div>
+                <div class="mb-4">
+                  <label for="jogador-time" class="form-label">Time</label>
+                  <select class="form-select" id="jogador-time" name="timeId" required></select>
+                </div>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-primary flex-fill" type="submit" id="jogador-submit">
+                    <i class="bi bi-check2-circle" aria-hidden="true"></i>
+                    Salvar jogador
+                  </button>
+                  <button class="btn btn-outline-secondary" type="button" id="jogador-cancelar">
+                    <i class="bi bi-eraser" aria-hidden="true"></i>
+                    Limpar
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div class="col-12 col-lg-8">
+              <div class="table-panel">
+                <div class="table-toolbar">
+                  <div>
+            
+                    <h3>Jogadores cadastrados</h3>
+                  </div>
+                  <div class="toolbar-actions">
+                    <select class="form-select form-select-sm" id="filtro-time" aria-label="Filtrar por time"></select>
+                    <button class="btn btn-sm btn-outline-secondary" id="recarregar-jogadores" type="button">
+                      <i class="bi bi-arrow-clockwise" aria-hidden="true"></i>
+                      Atualizar
+                    </button>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0">
+                    <thead>
+                      <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Posição</th>
+                        <th scope="col">Idade</th>
+                        <th scope="col">Camisa</th>
+                        <th scope="col" class="text-end">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody id="jogadores-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container d-flex flex-wrap justify-content-between gap-2">
+        <span>Player Hub Frontend</span>
+        <span>API: http://localhost:3000</span>
+      </div>
+    </footer>
+
+    <div class="modal fade" id="modalExcluirTime" tabindex="-1" aria-labelledby="modalExcluirTimeTitulo" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title fs-5" id="modalExcluirTimeTitulo">Excluir time</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+            <p class="mb-2">Tem certeza que deseja excluir este time?</p>
+            <p class="text-secondary small mb-0">Os jogadores vinculados a ele tambem serao removidos.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="confirmar-excluir-time">
+              <i class="bi bi-trash" aria-hidden="true"></i>
+              Excluir
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalExcluirJogador" tabindex="-1" aria-labelledby="modalExcluirJogadorTitulo" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title fs-5" id="modalExcluirJogadorTitulo">Excluir jogador</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+            <p class="mb-0">Tem certeza que deseja excluir este jogador?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="confirmar-excluir-jogador">
+              <i class="bi bi-trash" aria-hidden="true"></i>
+              Excluir
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalEditarTime" tabindex="-1" aria-labelledby="modalEditarTimeTitulo" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" id="form-editar-time">
+          <div class="modal-header">
+            <h2 class="modal-title fs-5" id="modalEditarTimeTitulo">Editar time</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="editar-time-nome" class="form-label">Nome</label>
+              <input class="form-control" id="editar-time-nome" required />
+            </div>
+            <div class="mb-3">
+              <label for="editar-time-pais" class="form-label">Pais</label>
+              <input class="form-control" id="editar-time-pais" required />
+            </div>
+            <div>
+              <label for="editar-time-treinador" class="form-label">Treinador</label>
+              <input class="form-control" id="editar-time-treinador" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar alteracoes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalEditarJogador" tabindex="-1" aria-labelledby="modalEditarJogadorTitulo" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" id="form-editar-jogador">
+          <div class="modal-header">
+            <h2 class="modal-title fs-5" id="modalEditarJogadorTitulo">Editar jogador</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="editar-jogador-nome" class="form-label">Nome</label>
+              <input class="form-control" id="editar-jogador-nome" required />
+            </div>
+            <div class="row g-3">
+              <div class="col-6">
+                <label for="editar-jogador-idade" class="form-label">Idade</label>
+                <input class="form-control" id="editar-jogador-idade" type="number" min="15" max="50" required />
+              </div>
+              <div class="col-6">
+                <label for="editar-jogador-camisa" class="form-label">Camisa</label>
+                <input class="form-control" id="editar-jogador-camisa" type="number" min="1" max="99" required />
+              </div>
+            </div>
+            <div class="mb-3 mt-3">
+              <label for="editar-jogador-posicao" class="form-label">Posição</label>
+              <input class="form-control" id="editar-jogador-posicao" required />
+            </div>
+            <div class="mb-3">
+              <label for="editar-jogador-nacionalidade" class="form-label">Nacionalidade</label>
+              <input class="form-control" id="editar-jogador-nacionalidade" required />
+            </div>
+            <div>
+              <label for="editar-jogador-time" class="form-label">Time</label>
+              <select class="form-select" id="editar-jogador-time" required></select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar alteracoes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./src/api/client.js"></script>
+    <script src="./src/services/timeService.js"></script>
+    <script src="./src/services/jogadorService.js"></script>
+    <script src="./src/state/store.js"></script>
+    <script src="./src/ui/dom.js"></script>
+    <script src="./src/ui/render.js"></script>
+    <script src="./src/main.js"></script>
+  </body>
+</html>
